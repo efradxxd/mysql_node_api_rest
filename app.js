@@ -14,10 +14,10 @@ app.use(cors({
 
 app.use(function(req, res, next){
 	res.locals.connection = mysql.createConnection({
-		host     : 'localhost',
+		host     : 'esignapidb.chpg1oxhskid.us-west-2.rds.amazonaws.com',
 		user     : 'root',
-		password : 'root',
-		database : 'sat'
+		password : 'admin123',
+		database : 'esignapidb'
 	});
 	res.locals.connection.connect();
 	next();
