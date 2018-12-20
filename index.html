@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+	<form>
+		Certificate:<br>
+		<input type="text" name="certificate" id="cert">
+		<br>
+
+		Key:<br>
+		<input type="text" name="key" id="key">
+		<br>
+
+		Password:<br>
+		<input type="text" name="password" id="pass">
+		<br>
+
+		<button type="button" onclick="loadDoc()">Submit</button>
+		<br>
+
+		<div id="result"></div>
+	</form>
+
+
+	<h1 id="entries">
+		firma
+	</h1>
+	
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script type ="text/javascript">
+		
+		function loadDoc(){
+			var cert = document.getElementById("cert").value;
+			var key = document.getElementById("key").value;
+			var pass = document.getElementById("pass").value;
+			var API_URL = "http://localhost:3000/api/" + cert + "/" + key + "/" + pass;
+			alert(API_URL);
+			$.ajax({
+				type: 'GET',
+				dataType: 'JSONP',
+				contentType: 'application/javascript',
+				jsonpCallback: 'callback',
+				url: API_URL,
+				crossDomain: true,
+				jsonp: 'callback',
+				xhrFields: {
+					withCredentials: false
+				},
+				success: function (data) {
+					console.log(data);
+					$('#entries').html('<p>' + data.status + ' '+ data.userStatus + '</p>');
+				}
+				/*,
+				error: function(error) {
+					console.log("FAIL....=================",error);
+				}*/
+			});
+		};
+	</script>
+</html>
