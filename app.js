@@ -25,10 +25,13 @@ app.use(function(req, res, next){
 
 
 app.get('/api/:cer/:key/:pass', function(req, res, next) {
+	
+	var hash= "||"+req.params.cer+"||"+req.params.key+"||"+req.params.pass+"||"+Date.now()+"||";
+	
 	res.locals.connection.query("SELECT * FROM users WHERE certificado='" + req.params.cer + "' AND keysat='" + req.params.key + "' AND pass='" + req.params.pass + "'", function (error, results, fields) {
        
         if(results.length > 0){
-            res.jsonp({status: 200, error: null, userStatus: "Accept"});
+            res.jsonp({status: 200, error: null, userStatus: "Accept",firma:hash});
         }else{
             res.jsonp({status: 200, error: null, userStatus: "Reject"});
 		}
