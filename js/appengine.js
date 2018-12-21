@@ -21,7 +21,7 @@ function validatefirm(){
     var cert = document.getElementById("cert").value;
     var key = document.getElementById("key").value;
     var pass = document.getElementById("pass").value;
-    var API_URL = "http://localhost:3000/api/" + cert + "/" + key + "/" + pass;
+    var API_URL = "http://34.226.226.84:3000/api/" + cert + "/" + key + "/" + pass;
     alert(API_URL);
     $.ajax({
         type: 'GET',
