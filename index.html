@@ -2,7 +2,7 @@
 <html>
 
 <body>
-
+	
 	<form>
 		Certificate:<br>
 		<input type="text" name="certificate" id="cert">
@@ -16,7 +16,7 @@
 		<input type="text" name="password" id="pass">
 		<br>
 
-		<button type="button" onclick="loadDoc()">Submit</button>
+		<button type="button" onclick="validatefirm()">Submit</button>
 		<br>
 
 		<div id="result"></div>
@@ -24,39 +24,42 @@
 
 
 	<h1 id="entries">
-		firma
+		estatus:
 	</h1>
+	<hr>
+
+	<div id="persons"> <!-- Forms for the info of the signers -->
+		<h2>Signers</h2>
+		<button type="button" id="addBtn">Add signer</button>
+		<button type="button" id="removeBtn">Remove signer</button>
+		<br><br>
+		<form  id="forms">
+			<!-- Signers's info forms goes here -->
 	
+			<!-- <label>eMail:</label>
+			<input type="text" name="email">
+			<br>
+	
+			<label>Phone:</label>
+			<input type="text" name="phone">
+			<br> -->
+			<input type="submit">
+			<br><br>
+		</form>
+	</div>
+	<hr>
+	
+	<div id="inputuploadDoc">
+		<h2>Upload document</h2>
+		<input type="file" onchange="convertToBase64();" accept=".doc, .docx, .pdf"  id="dochex">
+		<button id = "subirDocumento" submittype="button">Subir documento</button>	
+	</div>
+	<hr>
+
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-	<script type ="text/javascript">
-		
-		function loadDoc(){
-			var cert = document.getElementById("cert").value;
-			var key = document.getElementById("key").value;
-			var pass = document.getElementById("pass").value;
-			var API_URL = "http://localhost:3000/api/" + cert + "/" + key + "/" + pass;
-			alert(API_URL);
-			$.ajax({
-				type: 'GET',
-				dataType: 'JSONP',
-				contentType: 'application/javascript',
-				jsonpCallback: 'callback',
-				url: API_URL,
-				crossDomain: true,
-				jsonp: 'callback',
-				xhrFields: {
-					withCredentials: false
-				},
-				success: function (data) {
-					console.log(data);
-					$('#entries').html('<p>' + data.status + ' '+ data.userStatus +' '+data.firma+'</p>');
-				}
-				/*,
-				error: function(error) {
-					console.log("FAIL....=================",error);
-				}*/
-			});
-		};
-	</script>
+<script src="js/appengine.js"></script>
+
+
 </html>

@@ -1,7 +1,6 @@
 var mysql = require('mysql');
 var express = require('express');
 var cors = require('cors');
-
 var app = express();
 
 app.use(cors({
@@ -40,7 +39,7 @@ app.get('/api/:cer/:key/:pass', function(req, res, next) {
 	});
 });
 
+
 app.listen(3000, () =>{
     console.log("Escuchando por el puerto 3000");
-})
-  
+});
