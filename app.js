@@ -22,12 +22,27 @@ app.use(function(req, res, next){
 	next();
 });
 
+app.get('/',function(req,res){
 
-app.get('/api/:cer/:key/:pass', function(req, res, next) {
+	res.locals.connection.query("SELECT * FROM users",function (error, results, fields){
+		if(results.length > 0){
+            res.jsonp({
+				status: 200,
+				userStatus: "Accept",
+				users: results
+			});
+        }
+	})
+
+});
+
+app.get('/api/:cer/:key/:pass', function(req, res) {
 	
 	var hash= "||"+req.params.cer+"||"+req.params.key+"||"+req.params.pass+"||"+Date.now()+"||";
 	
-	res.locals.connection.query("SELECT * FROM users WHERE certificado='" + req.params.cer + "' AND keysat='" + req.params.key + "' AND pass='" + req.params.pass + "'", function (error, results, fields) {
+	res.locals.connection.query("SELECT * FROM users WHERE certificado='" + req.params.cer +
+	 "' AND keysat='" + req.params.key + "' AND pass='" + req.params.pass + 
+	 "'", function (error, results, fields) {
        
         if(results.length > 0){
             res.jsonp({status: 200, error: null, userStatus: "Accept",firma:hash});
@@ -39,6 +54,42 @@ app.get('/api/:cer/:key/:pass', function(req, res, next) {
 	});
 });
 
+app.delete('/api/:cer',function(req, res){
+	res.locals.connection.query("DELETE FROM users WHERE certificado='"+req.params.cer+"'", 
+	function(error, results, fields){
+		if(error){
+            res.jsonp({status:400,resul:error});
+        }
+		else{
+			res.jsonp({status: 200,user:'Accept'});
+		}
+	})
+});
+
+app.post('/api/:cer/:key/:pass',function(req,res){
+
+	res.locals.connection.query("INSERT INTO users VALUES (0,'"+req.params.cer+"','"+req.params.key+
+	"','"+req.params.pass+"');",function(error,results,fields){
+		if(error){
+            res.jsonp({status:400,resul:error});
+        }
+		else{
+			res.jsonp({status: 200,user:'Accept'});
+		}
+	});
+});
+
+app.put('/api/:cer/:CertificadoCambiado',function(req,res){
+	
+	res.locals.connection.query("UPDATE users SET certificado='"+req.params.CertificadoCambiado+"' WHERE certificado='"+req.params.cer+"';",function(error,results,fields){
+		if(error){
+            res.jsonp({status:400,resultado:error});
+        }
+		else{
+			res.jsonp({status: 200,Query:'Accept',resultado:results});
+		}
+	});
+});
 
 app.listen(3000, () =>{
     console.log("Escuchando por el puerto 3000");
